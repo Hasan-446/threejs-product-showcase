@@ -10,18 +10,25 @@ const Backdrop = () => {
     <AccumulativeShadows
       ref={shadows}
       temporal
-      frames={40}
-      alphaTest={0.85}
+      frames={60}
+      alphaTest={0.75}
       scale={10}
       rotation={[Math.PI / 2, 0, 0]}
       position={[0, 0, -0.14]}
     >
       <RandomizedLight
-        amount={2}
+        amount={1}
         radius={15}
-        intensity={0.55}
-        ambient={0.25}
+        intensity={0.85}
+        ambient={0.35}
         position={[5, 5, -10]}
+      />
+      <RandomizedLight
+        amount={1}
+        radius={9}
+        intensity={0.35}
+        ambient={0.85}
+        position={[-5, -5, 10]}
       />
    
     </AccumulativeShadows>
