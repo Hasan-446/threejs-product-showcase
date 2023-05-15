@@ -19,7 +19,9 @@ router.route("/").get((req, res) => {
 router.route("/").post(async(req, res) => {
   try {
     const {prompt}= req.body;
-    
+    const response = await openAi.createImage({
+      
+    })
   } catch (error) {
     console.log(error)
     res.status(500).json({message: "Something went wrong"})
