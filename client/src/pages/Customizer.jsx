@@ -61,7 +61,7 @@ const Customizer = () => {
       });
       const data = await response.json();
       console.log(response);
-      //handleDecals(type, `data:image/png;base64,${data.photo}`);
+      handleDecals(type, `data:image/png;base64,${data.photo}`);
     } catch (error) {
       alert(error);
     } finally {
@@ -105,7 +105,7 @@ const Customizer = () => {
 
   const readFile = (type) => {
     reader(file).then((result) => {
-      handleDecals(result, type);
+      handleDecals(type, result);
       setActiveEditorTab("");
     });
   };
