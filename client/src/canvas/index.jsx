@@ -1,5 +1,4 @@
 import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import { Environment, Center } from "@react-three/drei";
 import CameraRig from "./CameraRig";

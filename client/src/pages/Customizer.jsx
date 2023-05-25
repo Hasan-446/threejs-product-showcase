@@ -43,7 +43,7 @@ const Customizer = () => {
           />
         );
       default:
-        return null;
+      return null;
     }
   };
 
@@ -139,6 +139,17 @@ const Customizer = () => {
               type="filled"
               title="Go Back"
               handleClick={() => (state.intro = true)}
+              customStyles="w-fit px-4 py-2.5 font-bold text-sm "
+            ></CustomButton>
+          </motion.div>
+          <motion.div
+            className="absolute z-10 bottom-5 right-5 "
+            {...fadeAnimation}
+          >
+            <CustomButton
+              type="filled"
+              title="Order Now"
+              
               customStyles="w-fit px-4 py-2.5 font-bold text-sm "
             ></CustomButton>
           </motion.div>
