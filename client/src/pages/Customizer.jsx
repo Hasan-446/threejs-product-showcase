@@ -57,10 +57,9 @@ const Customizer = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, })
       });
       const data = await response.json();
-      console.log(response);
       handleDecals(type, `data:image/png;base64,${data.photo}`);
     } catch (error) {
       alert(error);
