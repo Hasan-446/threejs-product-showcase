@@ -1,7 +1,15 @@
 import React from "react";
 import Canvas from "../canvas";
+import { useSnapshot } from "valtio"
+import state from "../store";
+
 
 const Order = () => {
+  const snap = useSnapshot(state)
+
+  const borderStyle = {
+    borderColor: state.color,
+  };
   return (
     <div>
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
@@ -92,7 +100,7 @@ const Order = () => {
             Check your items. And select a suitable shipping method.
           </p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-6 sm:px-6">
-            <div className="flex flex-col rounded-lg bg-white sm:flex-row">
+            <div className="flex flex-row rounded-lg bg-white">
               <img
                 className=" h-24 w-36 rounded-md border object-cover object-center"
                 src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
@@ -105,7 +113,7 @@ const Order = () => {
               </div>
             </div>
 
-            <div className="pt-6 flex flex-row  ">
+            <div className="pt-6 flex flex-row justify-between ">
               <ul className="flex gap-1">
                 <li className="mr-2">
                   <a
@@ -163,10 +171,9 @@ const Order = () => {
           </div>
 
           <p className="mt-8 text-lg font-medium">Shipping Methods</p>
-
           <form className="mt-5 grid gap-6">
             <div className="flex flex-row gap-3">
-              <div className="relative">
+              <div className="relative w-full">
                 <input
                   className="peer hidden"
                   id="radio_1"
@@ -187,7 +194,7 @@ const Order = () => {
                   </div>
                 </label>
               </div>
-              <div className="relative">
+              <div className="relative w-full">
                 <input
                   className="peer hidden"
                   id="radio_2"
@@ -211,6 +218,7 @@ const Order = () => {
             </div>
           </form>
         </div>
+
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
           <p className="text-xl font-medium">Payment Details</p>
           <p className="text-gray-400">
@@ -249,7 +257,7 @@ const Order = () => {
               for="card-holder"
               className="mt-4 mb-2 block text-sm font-medium"
             >
-              Card Holder
+              Your Name
             </label>
             <div className="relative">
               <input
@@ -276,48 +284,7 @@ const Order = () => {
                 </svg>
               </div>
             </div>
-            <label
-              for="card-no"
-              className="mt-4 mb-2 block text-sm font-medium"
-            >
-              Card Details
-            </label>
-            <div className="flex">
-              <div className="relative w-7/12 flex-shrink-0">
-                <input
-                  type="text"
-                  id="card-no"
-                  name="card-no"
-                  className="w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="xxxx-xxxx-xxxx-xxxx"
-                />
-                <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                  <svg
-                    className="h-4 w-4 text-gray-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z" />
-                    <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z" />
-                  </svg>
-                </div>
-              </div>
-              <input
-                type="text"
-                name="credit-expiry"
-                className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="MM/YY"
-              />
-              <input
-                type="text"
-                name="credit-cvc"
-                className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="CVC"
-              />
-            </div>
+            
             <label
               for="billing-address"
               className="mt-4 mb-2 block text-sm font-medium"
@@ -355,6 +322,50 @@ const Order = () => {
                 placeholder="ZIP"
               />
             </div>
+
+            <form className="mt-5 grid gap-6">
+            <div className="flex flex-row gap-3">
+              <div className="relative w-full">
+                <input
+                  className="peer hidden"
+                  id="radio_3"
+                  type="radio"
+                  name="radio"
+                  checked
+                />
+                <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-2 w-2 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                <label
+                  className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
+                  for="radio_3"
+                >
+                  <div className="ml-3 mr-12 ">
+                    <span className="mt-2 text-sm font-semibold">Cash On Delivery</span>
+  
+                  </div>
+                </label>
+              </div>
+              <div className="relative w-full">
+                <input
+                  className="peer hidden"
+                  id="radio_4"
+                  type="radio"
+                  name="radio"
+                  checked
+                />
+                <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-2 w-2 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                <label
+                  className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
+                  for="radio_4"
+                >
+                  <div className="ml-3 mr-12">
+                    <span className="mt-2 text-sm font-semibold">Online Payment</span>
+   
+                  </div>
+                </label>
+              </div>
+            </div>
+          </form>
+         
 
             <div className="mt-6 border-t border-b py-2">
               <div className="flex items-center justify-between">
