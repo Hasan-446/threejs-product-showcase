@@ -3,16 +3,49 @@ import Canvas from "../canvas";
 import { useSnapshot } from "valtio";
 import state from "../store";
 
+const initialValue = {
+  size: "",
+  quantity: 0,
+  deliveryMethod: "",
+  email: "",
+  fullName: "",
+  address: "",
+  paymentMethod: "",
+};
+
 const Order = () => {
-
-
   const [selectedValue, setSelectedValue] = useState("");
   const [value, setValue] = useState(0);
 
-  const handleRadioChange = (event) => {
-    setSelectedValue(event.target.value);
+  const [orderData, setOrderData] = useState(initialValue);
+
+  const onValueChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "quantity") {
+      setOrderData({ ...orderData, [name]: value });
+    } else {
+      setOrderData({ ...orderData, [name]: value });
+    }
+  };
+  const onClick = (type) => {
+    if (type === "increment") {
+      setOrderData({ ...orderData, ["quantity"]: value + 1 });
+      setValue(value + 1);
+    } else {
+      setOrderData({ ...orderData, ["quantity"]: value - 1 });
+      setValue(value - 1);
+    }
   };
 
+  const handleRadioChange = (e) => {
+    setSelectedValue(e.target.value);
+    onValueChange(e);
+  };
+
+  const handleDeliveryChange = (event) => {
+    setSelectDelivery(event.target.value);
+  };
+  console.log(orderData.quantity, value);
   const radioOptions = [
     { label: "S", value: "S" },
     { label: "M", value: "M" },
@@ -20,10 +53,15 @@ const Order = () => {
     { label: "XL", value: "XL" },
     { label: "XXL", value: "XXL" },
   ];
+  const deliveryOptions = [
+    { method: "Standard", timeline: "3-7 days", value: "Standard" },
+    { method: "Fedex", timeline: "2-4 days", value: "Fedex" },
+  ];
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission or any other logic
+    console.log(orderData);
   };
 
   return (
@@ -144,7 +182,6 @@ const Order = () => {
                             : "bg-gray-200 text-gray-400"
                         } text-xs`}
                       >
-                        =
                         <input
                           type="radio"
                           name="size"
@@ -161,7 +198,7 @@ const Order = () => {
                 <div class="custom-number-input w-24 ml-10">
                   <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent border">
                     <button
-                      onClick={()=> setValue(value - 1)}
+                      onClick={() => onClick("")}
                       class=" bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
                     >
                       <span class="m-auto text-2xl font-thin">−</span>
@@ -169,10 +206,10 @@ const Order = () => {
                     <input
                       class="outline-none focus:outline-none text-center w-full  font-semibold text-md  md:text-basecursor-default flex items-center text-gray-700 "
                       value={value}
-                      onChange={(e) => setValue(parseInt(e.target.value) || 0)}
+                      name="quantity"
                     ></input>
                     <button
-                      onClick={()=> setValue(value + 1)}
+                      onClick={() => onClick("increment")}
                       class="bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
                     >
                       <span class="m-auto text-2xl font-thin">+</span>
@@ -185,48 +222,33 @@ const Order = () => {
             <p className="mt-8 text-lg font-medium">Shipping Methods</p>
             <div className="mt-5 grid gap-6">
               <div className="flex flex-row gap-3">
-                <div className="relative w-full">
-                  <input
-                    className="peer hidden"
-                    id="radio_1"
-                    type="radio"
-                    name="radio"
-                    checked
-                  />
-                  <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-                  <label
-                    className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
-                    for="radio_1"
-                  >
-                    <div className="ml-3 mr-12 ">
-                      <span className="mt-2 font-semibold">Standard</span>
-                      <p className="text-slate-500 text-sm leading-6">
-                        Delivery: 2-4 Days
-                      </p>
-                    </div>
-                  </label>
-                </div>
-                <div className="relative w-full">
-                  <input
-                    className="peer hidden"
-                    id="radio_2"
-                    type="radio"
-                    name="radio"
-                    checked
-                  />
-                  <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-                  <label
-                    className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
-                    for="radio_2"
-                  >
-                    <div className="ml-3 mr-12">
-                      <span className="mt-2 font-semibold">Fedex</span>
-                      <p className="text-slate-500 text-sm leading-6">
-                        Delivery: 2-4 Days
-                      </p>
-                    </div>
-                  </label>
-                </div>
+                {deliveryOptions.map((option) => (
+                  <div className="relative w-full">
+                    <input
+                      className="peer hidden"
+                      id={option.method}
+                      type="radio"
+                      name="deliveryMethod"
+                      onChange={handleDeliveryChange}
+                      value={option.value}
+                      checked
+                    />
+                    <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                    <label
+                      className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
+                      for={option.method}
+                    >
+                      <div className="ml-3 mr-12 ">
+                        <span className="mt-2 font-semibold">
+                          {option.method}
+                        </span>
+                        <p className="text-slate-500 text-sm leading-6">
+                          Delivery: {option.timeline}
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -278,7 +300,7 @@ const Order = () => {
                 <input
                   type="text"
                   id="card-holder"
-                  name="card-holder"
+                  name="fullName"
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Your full name here"
                 />
@@ -306,30 +328,22 @@ const Order = () => {
               >
                 Billing Address
               </label>
-              <div className="flex flex-col sm:flex-row">
-                <div className="relative flex-shrink-0 sm:w-10/12">
-                  <input
-                    type="text"
-                    id="billing-address"
-                    name="billing-address"
-                    className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Street Address"
-                  />
-                  <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                    <img
-                      className="h-4 w-4 object-contain"
-                      src="https://flagpack.xyz/_nuxt/4c829b6c0131de7162790d2f897a90fd.svg"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              
+
+              <div className="relative">
                 <input
                   type="text"
-                  name="billing-zip"
-                  className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="ZIP"
+                  id="billing-address"
+                  name="address"
+                  className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Street Address"
                 />
+                <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                  <img
+                    className="h-4 w-4 object-contain"
+                    src="https://flagpack.xyz/_nuxt/4c829b6c0131de7162790d2f897a90fd.svg"
+                    alt=""
+                  />
+                </div>
               </div>
 
               <div className="mt-5 grid gap-6">
@@ -392,7 +406,10 @@ const Order = () => {
                 <p className="text-2xl font-semibold text-gray-900">$408.00</p>
               </div>
             </div>
-            <button type="submit"  className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
+            <button
+              type="submit"
+              className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+            >
               Place Order
             </button>
           </div>
