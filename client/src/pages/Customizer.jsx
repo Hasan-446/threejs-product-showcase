@@ -14,6 +14,7 @@ import {
   FilePicker,
   Tab,
 } from "../components";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 
 const Customizer = () => {
   const snap = useSnapshot(state);
@@ -25,7 +26,12 @@ const Customizer = () => {
     logoShirt: true,
     stylishShirt: false,
   });
+  const navigate = useNavigate();
   //show tab content depending on the active tab
+
+  const handleOrderNowClick = () => {
+    navigate("/order");
+  };
 
   const generateTabContent = () => {
     switch (activeEditorTab) {
@@ -43,7 +49,7 @@ const Customizer = () => {
           />
         );
       default:
-      return null;
+        return null;
     }
   };
 
@@ -57,7 +63,7 @@ const Customizer = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt, })
+        body: JSON.stringify({ prompt }),
       });
       const data = await response.json();
       handleDecals(type, `data:image/png;base64,${data.photo}`);
@@ -146,11 +152,13 @@ const Customizer = () => {
             className="absolute z-10 bottom-5 right-5 "
             {...fadeAnimation}
           >
-            <CustomButton
-              type="filled"
-              title="Order Now"       
-              customStyles="w-fit px-4 py-2.5 font-bold text-sm "
-            ></CustomButton>
+            <Link to="order">
+              <CustomButton
+                type="filled"
+                title="Order Now"
+                customStyles="w-fit px-4 py-2.5 font-bold text-sm "
+              ></CustomButton>
+            </Link>
           </motion.div>
           <motion.div
             className="filtertabs-container"
@@ -165,6 +173,14 @@ const Customizer = () => {
                 handleClick={() => handleActiveFilterTab(tab.name)}
               ></Tab>
             ))}
+
+            <button className="download-btn" onClick={downloadCanvasToImage}>
+              <img
+                src={download}
+                alt="download_image"
+                className="w-3/5 h-3/5 object-contain"
+              />
+            </button>
           </motion.div>
         </>
       )}

@@ -21,12 +21,9 @@ const Order = () => {
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
-    if (name === "quantity") {
-      setOrderData({ ...orderData, [name]: value });
-    } else {
-      setOrderData({ ...orderData, [name]: value });
-    }
+    setOrderData({ ...orderData, [name]: value });
   };
+
   const onClick = (type) => {
     if (type === "increment") {
       setOrderData({ ...orderData, ["quantity"]: value + 1 });
@@ -45,7 +42,7 @@ const Order = () => {
   const handleDeliveryChange = (event) => {
     setSelectDelivery(event.target.value);
   };
-  console.log(orderData.quantity, value);
+  console.log(orderData);
   const radioOptions = [
     { label: "S", value: "S" },
     { label: "M", value: "M" },
@@ -53,10 +50,16 @@ const Order = () => {
     { label: "XL", value: "XL" },
     { label: "XXL", value: "XXL" },
   ];
+
   const deliveryOptions = [
     { method: "Standard", timeline: "3-7 days", value: "Standard" },
     { method: "Fedex", timeline: "2-4 days", value: "Fedex" },
   ];
+
+  const paymentOptions = [
+    { method: "cash on delivery", value: "Cash on delivery" },
+    {method: "Online payment", value: "Online payment"}
+]
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -229,9 +232,8 @@ const Order = () => {
                       id={option.method}
                       type="radio"
                       name="deliveryMethod"
-                      onChange={handleDeliveryChange}
+                      onChange={handleRadioChange}
                       value={option.value}
-                      checked
                     />
                     <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
                     <label
@@ -270,6 +272,7 @@ const Order = () => {
                   type="text"
                   id="email"
                   name="email"
+                  onChange={(e)=>onValueChange(e)}
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="your.email@gmail.com"
                 />
@@ -301,6 +304,7 @@ const Order = () => {
                   type="text"
                   id="card-holder"
                   name="fullName"
+                  onChange={(e)=>onValueChange(e)}
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Your full name here"
                 />
@@ -334,6 +338,7 @@ const Order = () => {
                   type="text"
                   id="billing-address"
                   name="address"
+                  onChange={(e)=>onValueChange(e)}
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Street Address"
                 />
@@ -348,46 +353,30 @@ const Order = () => {
 
               <div className="mt-5 grid gap-6">
                 <div className="flex flex-row gap-3">
-                  <div className="relative w-full">
-                    <input
-                      className="peer hidden"
-                      id="radio_3"
-                      type="radio"
-                      name="radio"
-                      checked
-                    />
-                    <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-2 w-2 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-                    <label
-                      className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
-                      for="radio_3"
-                    >
-                      <div className="ml-3 mr-12 ">
-                        <span className="mt-2 text-sm font-semibold">
-                          Cash On Delivery
-                        </span>
-                      </div>
-                    </label>
-                  </div>
-                  <div className="relative w-full">
-                    <input
-                      className="peer hidden"
-                      id="radio_4"
-                      type="radio"
-                      name="radio"
-                      checked
-                    />
-                    <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-2 w-2 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-                    <label
-                      className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
-                      for="radio_4"
-                    >
-                      <div className="ml-3 mr-12">
-                        <span className="mt-2 text-sm font-semibold">
-                          Online Payment
-                        </span>
-                      </div>
-                    </label>
-                  </div>
+                  {paymentOptions.map(option => (
+                     <div className="relative w-full">
+                     <input
+                       className="peer hidden"
+                       id={option.method}
+                       type="radio"
+                        name="paymentMethod"
+                        onChange={handleRadioChange}
+                       value={option.value}
+                     />
+                     <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-2 w-2 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                     <label
+                       className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
+                       for={option.method}
+                     >
+                       <div className="ml-3 mr-12 ">
+                         <span className="mt-2 text-sm font-semibold">
+                           {option.method}
+                         </span>
+                       </div>
+                     </label>
+                   </div>
+                  ))}
+                
                 </div>
               </div>
 
