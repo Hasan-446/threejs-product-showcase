@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Canvas from "../canvas";
 import { useSnapshot } from "valtio";
 import state from "../store";
+import { addOrder } from "../service/Api";
+import { useNavigate } from "react-router-dom";
 
 const initialValue = {
   size: "",
@@ -16,6 +17,7 @@ const initialValue = {
 const Order = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [value, setValue] = useState(0);
+  const navigate = useNavigate();
 
   const [orderData, setOrderData] = useState(initialValue);
 
@@ -38,6 +40,11 @@ const Order = () => {
     setSelectedValue(e.target.value);
     onValueChange(e);
   };
+
+  const addOrderDetails = async () => {
+    await addOrder(orderData)
+    navigate("/")
+  }
 
   console.log(orderData);
   const radioOptions = [
@@ -392,6 +399,7 @@ const Order = () => {
             </div>
             <button
               type="submit"
+              onClick={addOrderDetails}
               className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
             >
               Place Order
