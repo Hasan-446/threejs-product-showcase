@@ -39,9 +39,6 @@ const Order = () => {
     onValueChange(e);
   };
 
-  const handleDeliveryChange = (event) => {
-    setSelectDelivery(event.target.value);
-  };
   console.log(orderData);
   const radioOptions = [
     { label: "S", value: "S" },
@@ -58,8 +55,8 @@ const Order = () => {
 
   const paymentOptions = [
     { method: "cash on delivery", value: "Cash on delivery" },
-    {method: "Online payment", value: "Online payment"}
-]
+    { method: "Online payment", value: "Online payment" },
+  ];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -176,9 +173,8 @@ const Order = () => {
               <div className="pt-6 flex flex-row justify-between ">
                 <ul className="flex gap-1">
                   {radioOptions.map((option) => (
-                    <li className="mr-2">
+                    <li key={option.value} className="mr-2">
                       <label
-                        key={option.value}
                         className={`inline-block w-[38px] h-[38px] text-center leading-[38px] rounded-[50%] ${
                           selectedValue === option.value
                             ? "bg-blue-200 text-blue-400"
@@ -226,7 +222,7 @@ const Order = () => {
             <div className="mt-5 grid gap-6">
               <div className="flex flex-row gap-3">
                 {deliveryOptions.map((option) => (
-                  <div className="relative w-full">
+                  <div key={option.value} className="relative w-full">
                     <input
                       className="peer hidden"
                       id={option.method}
@@ -272,7 +268,7 @@ const Order = () => {
                   type="text"
                   id="email"
                   name="email"
-                  onChange={(e)=>onValueChange(e)}
+                  onChange={(e) => onValueChange(e)}
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="your.email@gmail.com"
                 />
@@ -304,7 +300,7 @@ const Order = () => {
                   type="text"
                   id="card-holder"
                   name="fullName"
-                  onChange={(e)=>onValueChange(e)}
+                  onChange={(e) => onValueChange(e)}
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Your full name here"
                 />
@@ -338,7 +334,7 @@ const Order = () => {
                   type="text"
                   id="billing-address"
                   name="address"
-                  onChange={(e)=>onValueChange(e)}
+                  onChange={(e) => onValueChange(e)}
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Street Address"
                 />
@@ -353,30 +349,29 @@ const Order = () => {
 
               <div className="mt-5 grid gap-6">
                 <div className="flex flex-row gap-3">
-                  {paymentOptions.map(option => (
-                     <div className="relative w-full">
-                     <input
-                       className="peer hidden"
-                       id={option.method}
-                       type="radio"
+                  {paymentOptions.map((option) => (
+                    <div key={option.value} className="relative w-full">
+                      <input
+                        className="peer hidden"
+                        id={option.method}
+                        type="radio"
                         name="paymentMethod"
                         onChange={handleRadioChange}
-                       value={option.value}
-                     />
-                     <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-2 w-2 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-                     <label
-                       className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
-                       for={option.method}
-                     >
-                       <div className="ml-3 mr-12 ">
-                         <span className="mt-2 text-sm font-semibold">
-                           {option.method}
-                         </span>
-                       </div>
-                     </label>
-                   </div>
+                        value={option.value}
+                      />
+                      <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-2 w-2 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                      <label
+                        className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-3"
+                        for={option.method}
+                      >
+                        <div className="ml-3 mr-12 ">
+                          <span className="mt-2 text-sm font-semibold">
+                            {option.method}
+                          </span>
+                        </div>
+                      </label>
+                    </div>
                   ))}
-                
                 </div>
               </div>
 
