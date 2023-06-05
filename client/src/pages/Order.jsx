@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSnapshot } from "valtio";
 import state from "../store";
 import { addOrder } from "../service/Api";
@@ -12,6 +12,7 @@ const initialValue = {
   fullName: "",
   address: "",
   paymentMethod: "",
+  totalPrice: 0,
 };
 
 const Order = () => {
@@ -20,6 +21,11 @@ const Order = () => {
   const navigate = useNavigate();
 
   const [orderData, setOrderData] = useState(initialValue);
+
+  useEffect(() => {
+    const totalPrice = value * 12 + 8;
+    setOrderData({ ...orderData, totalPrice: totalPrice });
+  }, [value]);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -42,11 +48,9 @@ const Order = () => {
   };
 
   const addOrderDetails = async () => {
-    await addOrder(orderData)
-    navigate("/")
-  }
-
-  console.log(orderData);
+    await addOrder(orderData);
+    navigate("/");
+  };
   const radioOptions = [
     { label: "S", value: "S" },
     { label: "M", value: "M" },
@@ -68,8 +72,8 @@ const Order = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission or any other logic
-    console.log(orderData);
   };
+  console.log(orderData);
 
   return (
     <div>
@@ -385,7 +389,9 @@ const Order = () => {
               <div className="mt-6 border-t border-b py-2">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Subtotal</p>
-                  <p className="font-semibold text-gray-900">$399.00</p>
+                  <p className="font-semibold text-gray-900">
+                    ${value * 12}.00
+                  </p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Shipping</p>
@@ -394,7 +400,9 @@ const Order = () => {
               </div>
               <div className="mt-6 flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Total</p>
-                <p className="text-2xl font-semibold text-gray-900">$408.00</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  ${orderData.totalPrice.toFixed(2)}
+                </p>
               </div>
             </div>
             <button

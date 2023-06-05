@@ -8,6 +8,7 @@ const OrderSchema = mongoose.Schema({
     fullName: String,
     address: String,
     paymentMethod: String,
+    totalPrice:Number
 })
 
 export default mongoose.models.order || mongoose.model("order",OrderSchema)

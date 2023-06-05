@@ -6,7 +6,6 @@ const URL = "http://localhost:8080"
 export const addOrder = async (data) => {
     try {
         return await axios.post(`${URL}/addOrder`, data)
-        console.log("data added successfully")
     } catch (error) {
         console.log("there was error to post order data", error);
     }
