@@ -3,6 +3,7 @@ import { useSnapshot } from "valtio";
 import state from "../store";
 import { addOrder } from "../service/Api";
 import { useNavigate } from "react-router-dom";
+import canva from "../assets/canvas.png"
 
 const initialValue = {
   size: "",
@@ -168,16 +169,16 @@ const Order = () => {
             <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-6 sm:px-6">
               <div className="flex flex-row rounded-lg bg-white">
                 <img
-                  className=" h-24 w-36 rounded-md border object-cover object-center"
-                  src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+                  className=" h-36 w-44 rounded-md border object-cover object-center"
+                  src={canva}
                   alt=""
                 />
-                <div className="flex w-full flex-col px-6 py-2">
+                <div className="flex w-full flex-col px-6 py-2 space-y-2">
                   <span className="font-semibold">Premium Tshirt</span>
                   <span className="float-right text-gray-400">
                     42EU - 8.5US
                   </span>
-                  <p className="text-lg font-bold">$138.99</p>
+                  <p className="text-lg font-bold">$11.99</p>
                 </div>
               </div>
 

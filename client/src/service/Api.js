@@ -10,3 +10,11 @@ export const addOrder = async (data) => {
         console.log("there was error to post order data", error);
     }
 };
+
+export const allOrder = async () => { 
+    try {
+        return await axios.get(`${URL}/allOrder`)
+    } catch (error) {
+        console.log("there was error to load order data", error);
+    }
+}
